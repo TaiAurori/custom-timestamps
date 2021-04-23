@@ -78,6 +78,7 @@ module.exports = class CustomTimestamps extends Plugin {
           const { children } = res.props.children.props;
           res.props.children.props.children = e => {
             const r = children(e);
+            if (r.props.children?.props?.className?.indexOf?.("edited") === 0) return r;
             r.props["aria-label"] = timestampParsed;
             r.props.children = timestampParsed;
             //r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") };
