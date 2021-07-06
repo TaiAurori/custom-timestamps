@@ -73,15 +73,17 @@ module.exports = class CustomTimestamps extends Plugin {
       (args, res) => {
         try {
           const timestampParsed = this.parseTimestamp(args[0].timestamp)
-          res.props.children.props.text = this.parseTimestamp(args[0].timestamp, true);
+          if (settings.get("enableHoverTimestamp", false)) res.props.children.props.text = this.parseTimestamp(args[0].timestamp, true);
           const { children } = res.props.children.props;
-          res.props.children.props.children = e => {
-            const r = children(e);
-            if (r.props.children?.props?.className?.indexOf?.("edited") === 0) return r;
-            r.props["aria-label"] = timestampParsed;
-            r.props.children = timestampParsed;
-            //r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") };
-            return r;
+          if (settings.get("enableChatTimestamp", false)) {
+            res.props.children.props.children = e => {
+              const r = children(e);
+              if (r.props.children?.props?.className?.indexOf?.("edited") === 0) return r;
+              r.props["aria-label"] = timestampParsed;
+              r.props.children = timestampParsed;
+              //r.props.style = { color: this.settings.get("timestampColor", "var(--text-muted)") };
+              return r;
+            }
           }
           return res;
         } catch (err) {

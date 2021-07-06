@@ -38,6 +38,20 @@ module.exports = class Settings extends React.PureComponent {
         >
           Timestamp Bubble Schematic
         </TextInput>
+        <SwitchItem
+          note="Whether the chat timestamp should be overwritten."
+          value={settings.getSetting("enableChatTimestamp", false)}
+          onChange={p=>{
+            settings.toggleSetting('enableChatTimestamp', false)
+          }}
+        >Overwrite Chat Timestamp</SwitchItem>
+        <SwitchItem
+          note="Whether the hover timestamp should be overwritten."
+          value={settings.getSetting("enableHoverTimestamp", false)}
+          onChange={p=>{
+            settings.toggleSetting('enableHoverTimestamp', false)
+          }}
+        >Overwrite Hover Timestamp</SwitchItem>
         {/* <TextInput
           note="Color of the timestamp. Any CSS color is valid."
           defaultValue={settings.getSetting("timestampColor", "var(--text-muted)")}
