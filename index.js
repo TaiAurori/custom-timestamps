@@ -5,13 +5,12 @@
  * but this copyright notice must remain unmodified.
  */
 
-const { MoldSettings, req } = require("./modules/moldit.js");
 let settings;
 
-const { Plugin } = req("entities");
-const { findInReactTree } = req("util");
-const { inject, uninject } = req("injector");
-const { getModule, getModuleByDisplayName } = req("webpack");
+const { Plugin } = require("powercord/entities");
+const { findInReactTree } = require("powercord/util");
+const { inject, uninject } = require("powercord/injector");
+const { getModule, getModuleByDisplayName } = require("powercord/webpack");
 const tsmod = require("./modules/taistamps.js");
 let moment;
 let ts = new tsmod.Timestamper();
@@ -54,11 +53,11 @@ const Settings = require("./Settings");
 
 module.exports = class CustomTimestamps extends Plugin {
   startPlugin() {
-    settings = new MoldSettings(this);
-    settings.register({
-      id: "custom-timestamps",
-      label: "Custom Timestamps",
-      render: Settings,
+    settings = this.settings;
+    powercord.api.settings.registerSettings(this.entityID, {
+      category: this.entityID,
+      label: this.manifest.name, 
+      render: Settings
     });
     this.initInject();
   }
@@ -92,6 +91,15 @@ module.exports = class CustomTimestamps extends Plugin {
       }
     );
     timestampModule.default.displayName = "MessageTimestamp";
+
+	// parse markdown timestamps (e.g <t:12345:R>) (experimental)
+	// inject("markdown-timestamper", (await getModule(m => m.type?.displayName === "MessageContent")), "type", (args, res) => {
+	    // res.props.children[0][1].props.text = this.parseTimestamp(moment(args[0].content[1].props), true)
+	    // let func1 = res.props.children[0][1].props.children
+	    // res.props.children[0][1].props.children = (r) => {res = func1(r); res.props.children = this.parseTimestamp(moment(res.props.children)); return res}
+	    // return res;
+	// })
+    
       //TODO: implement bubbles and message timestamps on welcome to server messages and grouped messages
 //     inject("temp", Message, "default", (args, res) => {
 //       if (res.props.children[0].props.children[1].props.compact) {
@@ -138,7 +146,4 @@ module.exports = class CustomTimestamps extends Plugin {
     uninject("message-timestamper");
     uninject("message-timestamper2");
   };
-
-  start() {this.startPlugin()}
-  stop() {this.pluginWillUnload()}
 };

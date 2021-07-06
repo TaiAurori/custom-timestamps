@@ -1,8 +1,7 @@
-const { req, MoldSettings } = require("./modules/moldit.js");
 var settings;
 
-const { React, getModuleByDisplayName } = req("webpack");
-const { Category, TextInput, SwitchItem } = req("components/settings");
+const { React, getModuleByDisplayName } = require("powercord/webpack");
+const { Category, TextInput, SwitchItem } = require("powercord/components/settings");
 const FormItem = getModuleByDisplayName("FormItem", false);
 const FormText = getModuleByDisplayName("FormText", false);
 
@@ -15,7 +14,7 @@ module.exports = class Settings extends React.PureComponent {
     super(props)
 
     this.state = {}
-    settings = new MoldSettings(this, "custom-timestamps");
+    settings = this.props;
   }
 
   render() {
