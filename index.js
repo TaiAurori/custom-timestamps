@@ -73,9 +73,9 @@ module.exports = class CustomTimestamps extends Plugin {
       (args, res) => {
         try {
           const timestampParsed = this.parseTimestamp(args[0].timestamp)
-          if (settings.get("enableHoverTimestamp", false)) res.props.children.props.text = this.parseTimestamp(args[0].timestamp, true);
+          if (settings.get("enableHoverTimestamp", true)) res.props.children.props.text = this.parseTimestamp(args[0].timestamp, true);
           const { children } = res.props.children.props;
-          if (settings.get("enableChatTimestamp", false)) {
+          if (settings.get("enableChatTimestamp", true)) {
             res.props.children.props.children = e => {
               const r = children(e);
               if (r.props.children?.props?.className?.indexOf?.("edited") === 0) return r;
