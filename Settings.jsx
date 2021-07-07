@@ -40,16 +40,16 @@ module.exports = class Settings extends React.PureComponent {
         </TextInput>
         <SwitchItem
           note="Whether the chat timestamp should be overwritten."
-          value={settings.getSetting("enableChatTimestamp", false)}
+          value={settings.getSetting("enableChatTimestamp", true)}
           onChange={p=>{
-            settings.toggleSetting('enableChatTimestamp', false)
+            settings.toggleSetting('enableChatTimestamp', true)
           }}
         >Overwrite Chat Timestamp</SwitchItem>
         <SwitchItem
           note="Whether the hover timestamp should be overwritten."
-          value={settings.getSetting("enableHoverTimestamp", false)}
+          value={settings.getSetting("enableHoverTimestamp", true)}
           onChange={p=>{
-            settings.toggleSetting('enableHoverTimestamp', false)
+            settings.toggleSetting('enableHoverTimestamp', true)
           }}
         >Overwrite Hover Timestamp</SwitchItem>
         {/* <TextInput
